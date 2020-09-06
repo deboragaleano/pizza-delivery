@@ -27,5 +27,17 @@ router.post('/', (req, res) => {
 
 });
 
+// @route  DELETE api/items/:id
+// @desc   DELETE A Item
+// @access Public for now (will be private once we add Auth)
+router.delete('/:id', (req, res) => {
+    const itemToDelete = req.params.id
+    
+    Item.findById(itemToDelete)
+        .then(item => item.remove().then(() => res.json({success: true})))
+        .catch(err => res.status(404).json({success: false}))
+})
+
+
 
 module.exports = router; 
