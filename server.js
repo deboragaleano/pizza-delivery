@@ -2,11 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser'); 
 const dotenv = require('dotenv'); 
-
 const app = express(); 
 
 //Bodyparser Middleware
 app.use(bodyParser.json()); 
+
+// requiring routes 
+const items = require('./routes/api/items')
+
+//================
+// APP CONFIG 
+//=================
 
 // DB Config 
 dotenv.config(); 
@@ -22,6 +28,14 @@ mongoose.connect(db, {
     .then(() => console.log('MongoDB connected'))
     //if the promise rejects then show error
     .catch(error => console.log(error))
+
+
+//================
+// USE ROUTES 
+//=================
+
+app.use('/api/items', items); 
+
 
 /* DEFINE HOW TO RUN A SERVER */
 // Since we're deploying to Heroku we need to set it to process.env.PORT (this is an environmental variable - like the Weather API -key that I used)
